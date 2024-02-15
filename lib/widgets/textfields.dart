@@ -17,19 +17,20 @@ class _SimpleTextfieldState extends State<SimpleTextfield> {
     return TextField(
       controller: widget.controller,
       decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(20),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            width: 2,
+            width: 1,
             color: Colors.black,
           ),
-          borderRadius: BorderRadius.circular(0.0),
+          borderRadius: BorderRadius.circular(40),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            width: 2,
+            width: 1,
             color: Colors.black,
           ),
-          borderRadius: BorderRadius.circular(0.0),
+          borderRadius: BorderRadius.circular(40),
         ),
         hintText: widget.innerText,
       ),
@@ -57,6 +58,7 @@ class _PasswordTexfieldState extends State<PasswordTexfield> {
       controller: widget.controller,
       obscureText: _isObscured,
       decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(20),
         suffixIcon: IconButton(
           icon: Icon(_isObscured ? Icons.visibility : Icons.visibility_off),
           onPressed: () {
@@ -67,17 +69,17 @@ class _PasswordTexfieldState extends State<PasswordTexfield> {
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            width: 2,
+            width: 1,
             color: Colors.black,
           ),
-          borderRadius: BorderRadius.circular(0.0),
+          borderRadius: BorderRadius.circular(40),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            width: 2,
+            width: 1,
             color: Colors.black,
           ),
-          borderRadius: BorderRadius.circular(0.0),
+          borderRadius: BorderRadius.circular(40),
         ),
         hintText: widget.innerText,
       ),

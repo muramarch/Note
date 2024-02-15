@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:note_app/screens/note_add_screen.dart';
 import 'package:note_app/screens/note_detail_screen.dart';
 import 'package:note_app/screens/note_edit_screen.dart';
+
 import 'package:note_app/screens/profile_screen.dart';
 import 'package:note_app/services/api.dart';
 
@@ -80,6 +82,18 @@ class _NoteListScreenState extends State<NoteListScreen> {
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddNoteScreen()),
+            );
+          },
+          icon: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -116,28 +130,21 @@ class _NoteListScreenState extends State<NoteListScreen> {
               controller: _searchController,
               onChanged: _searchNotes,
               decoration: InputDecoration(
-                labelText: 'Поиск по названию',
-                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                fillColor: Colors.white,
+                filled: true,
+                hintText: 'Поиск',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(40),
+                  borderSide: BorderSide.none,
+                ),
               ),
+              style: TextStyle(color: Colors.black),
             ),
           ),
           Expanded(
             child: _buildNoteList(),
           ),
-          Container(
-            margin: EdgeInsets.only(bottom: 40),
-            child: FloatingActionButton(
-              backgroundColor: Color(0xFF2E3192),
-              elevation: 0,
-              onPressed: () {
-                Navigator.pushNamed(context, '/note_add');
-              },
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-            ),
-          )
         ],
       ),
     );
@@ -155,68 +162,69 @@ class _NoteListScreenState extends State<NoteListScreen> {
       itemBuilder: (context, index) {
         final note = _filteredNotes[index];
 
-        return Container(
-          margin: EdgeInsets.all(8.0),
-          padding: EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-          ),
-          child: ListTile(
-            title: Text(
-              note['title'],
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
-              ),
+        return InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NoteDetailScreen(note: note)),
+            );
+          },
+          child: Container(
+            margin: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
             ),
-            subtitle: Text(
-              note['created_at'],
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey[600],
-              ),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  onPressed: () {
-                    _deleteNote(note['id']);
-                  },
-                  icon: Icon(
-                    Icons.delete,
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      note['title'],
+                      style: TextStyle(fontSize: 17),
+                    ),
+                    Text(
+                      note['created_at'],
+                      style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey[700]),
+                    )
+                  ],
                 ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NoteEditScreen(
-                          token: widget.token,
-                          noteId: note['id'],
-                          title: note['title'],
-                          content: note['content'],
-                        ),
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.edit,
-                  ),
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NoteEditScreen(
+                                token: widget.token,
+                                noteId: note['id'],
+                                title: note['title'],
+                                content: note['content'],
+                              ),
+                            ),
+                          );
+                        },
+                        icon: Icon(Icons.edit)),
+                    IconButton(
+                        onPressed: () {
+                          _deleteNote(note['id']);
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.red[300],
+                        )),
+                  ],
                 ),
               ],
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => NoteDetailScreen(note: note),
-                ),
-              );
-            },
           ),
         );
       },

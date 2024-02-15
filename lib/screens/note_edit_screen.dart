@@ -62,13 +62,41 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Note'),
+        title: Text(
+          'Edit note',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/note_list');
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: _saveChanges,
-            icon: Icon(Icons.save),
+            icon: Icon(
+              Icons.check,
+              color: Colors.white,
+            ),
           ),
         ],
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF1BFFFF), Color(0xFF2E3192)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -78,18 +106,19 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
             TextField(
               controller: _titleController,
               decoration: InputDecoration(
-                labelText: 'Title',
+                fillColor: Colors.white,
+                filled: true,
+                border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 16),
             Expanded(
               child: TextField(
                 controller: _contentController,
-                maxLines: null,
-                expands: true,
+                maxLines: 10,
                 decoration: InputDecoration(
-                  labelText: 'Content',
-                  alignLabelWithHint: true,
+                  fillColor: Colors.white,
+                  filled: true,
                   border: OutlineInputBorder(),
                 ),
               ),

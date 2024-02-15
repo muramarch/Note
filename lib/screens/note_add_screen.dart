@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:note_app/services/api.dart';
@@ -47,27 +49,58 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text('Add Note'),
+        title: Text(
+          'Add note',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/note_list');
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            )),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF1BFFFF), Color(0xFF2E3192)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Text('Title'),
+            SizedBox(height: 10),
             TextFormField(
               controller: _titleController,
               decoration: InputDecoration(
-                labelText: 'Title',
+                fillColor: Colors.white,
+                filled: true,
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
+            Text('Context'),
+            SizedBox(height: 10),
             TextFormField(
               controller: _contentController,
-              maxLines: 5,
+              maxLines: 10,
               decoration: InputDecoration(
-                labelText: 'Content',
+                fillColor: Colors.white,
+                filled: true,
                 border: OutlineInputBorder(),
               ),
             ),
