@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  void _login() async {
+  Future<void> _login() async {
     final username = _usernameController.text;
     final password = _passwordController.text;
 
@@ -107,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => RegisterScreen(),
+                              builder: (context) => RegistrationScreen(),
                             ),
                           );
                         },

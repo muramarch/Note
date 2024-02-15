@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:note_app/auth/login_screen.dart';
+
 import 'package:note_app/services/api.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -38,13 +40,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, '/note_list');
           },
           icon: Icon(
             Icons.arrow_back_ios,
             color: Colors.white,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              final storage = FlutterSecureStorage();
+              await storage.delete(key: 'apiAccessToken');
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+                (route) => false,
+              );
+            },
+            icon: Icon(Icons.logout),
+            color: Colors.white,
+          )
+        ],
         title: Text(
           'Profile',
           style: TextStyle(

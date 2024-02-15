@@ -19,11 +19,11 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> registerUser(
-      String username, String password) async {
+      String email, String username, String password) async {
     try {
       final response = await _dio.post(
-        '$baseUrl/auth/token/register/',
-        data: {'username': username, 'password': password},
+        '$baseUrl/auth/users/',
+        data: {'email': email, 'username': username, 'password': password},
       );
       return response.data;
     } catch (error) {
@@ -55,6 +55,38 @@ class ApiService {
       );
     } catch (error) {
       throw Exception('Failed to delete note');
+    }
+  }
+
+  Future<Map<String, dynamic>> editNote(
+      String token, int id, String title, String content) async {
+    try {
+      final response = await _dio.put(
+        '$baseUrl/api/notes/$id/edit/',
+        data: {'title': title, 'content': content},
+        options: Options(
+          headers: {'Authorization': 'Token $token'},
+        ),
+      );
+      return response.data;
+    } catch (error) {
+      throw Exception('Failed to edit note');
+    }
+  }
+
+  Future<Map<String, dynamic>> addNote(
+      String token, String title, String content) async {
+    try {
+      final response = await _dio.post(
+        '$baseUrl/api/notes/create/',
+        data: {'title': title, 'content': content},
+        options: Options(
+          headers: {'Authorization': 'Token $token'},
+        ),
+      );
+      return response.data;
+    } catch (error) {
+      throw Exception('Failed to add note');
     }
   }
 

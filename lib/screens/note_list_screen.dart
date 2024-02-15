@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:note_app/screens/note_detail_screen.dart';
+import 'package:note_app/screens/note_edit_screen.dart';
 import 'package:note_app/screens/profile_screen.dart';
 import 'package:note_app/services/api.dart';
 
@@ -53,7 +54,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
 
       final snackBar = SnackBar(
         content: Center(child: Text('Заметка удалена!')),
-        duration: Duration(seconds: 3),
+        duration: Duration(seconds: 2),
       );
 
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -123,6 +124,20 @@ class _NoteListScreenState extends State<NoteListScreen> {
           Expanded(
             child: _buildNoteList(),
           ),
+          Container(
+            margin: EdgeInsets.only(bottom: 40),
+            child: FloatingActionButton(
+              backgroundColor: Color(0xFF2E3192),
+              elevation: 0,
+              onPressed: () {
+                Navigator.pushNamed(context, '/note_add');
+              },
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -163,13 +178,36 @@ class _NoteListScreenState extends State<NoteListScreen> {
                 color: Colors.grey[600],
               ),
             ),
-            trailing: IconButton(
-              onPressed: () {
-                _deleteNote(note['id']);
-              },
-              icon: Icon(
-                Icons.delete,
-              ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    _deleteNote(note['id']);
+                  },
+                  icon: Icon(
+                    Icons.delete,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NoteEditScreen(
+                          token: widget.token,
+                          noteId: note['id'],
+                          title: note['title'],
+                          content: note['content'],
+                        ),
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.edit,
+                  ),
+                ),
+              ],
             ),
             onTap: () {
               Navigator.push(
