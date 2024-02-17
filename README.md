@@ -1,6 +1,6 @@
 # note_app
 
-A new Flutter project.
+Note is a mobile application for creating, storing and managing notes. You can easily add, edit and delete notes. User registration, authorization and personal account are supported. The backend is developed in Django Rest Framework (DRF), and the frontend is developed in Flutter.
 
 ## Getting Started
 
